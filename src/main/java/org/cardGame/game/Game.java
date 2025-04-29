@@ -21,26 +21,46 @@ public class Game {
         gameCount++;
     }
 
-    public void start(List<Player> players, Dealer dealer) {
+      public GameResult start( ) {
+        System.out.println("======== Game " + gameCount + " 시작됩니다. ========");
 
-        System.out.println("======== gameNo" + "시작됩니다. ========");
+        // 1. 딜러가 덱 셔플하고 플레이어에게 카드 나눠주기
+        playerHands.clear(); // 매 게임마다 초기화
+        playerHands.putAll(dealer.dealToPlayers(players, deck));
 
-        // 딜러가 카드를 플레이어들에게 나눠준다.
-        for (Player p : players) {
-            dealer.shuffle(deck);
-            List<Card> cards = dealer.dealCards(deck);
-            playerHands.put(p, new Hand(cards));
+        // 2. 딜러가 플레이어들의 핸드를 평가하고 최종 승자 결정
+        Player winner = dealer.decideWinner(playerHands);
+
+        // 3. 승자, 패자 기록 업데이트
+        updatePlayerRecords(winner);
+
+        // 4. 게임 결과 출력
+        printGameResult(winner);
+
+        GameResult gameResult = new GameResult(gameCount, winner);
+        return  gameResult;
+    }
+
+    private void updatePlayerRecords(Player winner) {
+        for (Player player : players) {
+            if (player.equals(winner)) {
+                player.win();
+            } else {
+                player.lose();
+            }
         }
-        // 딜러가 각각의 플레이어의 핸드카드에 점수를 부여합니다.
-        for (Player p : players) {
-              Hand hand = playerHands.get(p);
-            int score = dealer.evaluateCards(hand.getCards());
-            hand.setScore(score);
+    }
+
+    private void printGameResult(Player winner) {
+        System.out.println("🏆 승자: " + winner.getNickName());
+        System.out.println("--- 플레이어 상태 ---");
+        for (Player player : players) {
+            System.out.println(player.getNickName() + " | 승: " + player.getCountOfWin() + " 패: " + player.getCountOfLoss());
         }
-
-
     }
 
 
-    private
+
+
+
 }

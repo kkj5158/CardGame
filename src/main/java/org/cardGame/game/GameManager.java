@@ -1,12 +1,12 @@
 package org.cardGame.game;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager {
     private static final int MAX_PLAYERS = 4;
     private static final int MIN_PLAYERS = 4;
-
-    private static final double DEFAULT_MONEY = 4;
+    private static final double DEFAULT_MONEY = 10000;
 
 
     private static final String[] dealerNames = {
@@ -32,7 +32,9 @@ public class GameManager {
 
     private final Set<String> nicknameSet = new HashSet<>();
 
-    private List<Player> players;
+    private final List<Player> players = new ArrayList<>();
+    private final List<GameResult> gameResults = new ArrayList<>();
+
     private Dealer dealer;
     private int numOfPlayers;
     private int numOfGmaes;
@@ -62,7 +64,7 @@ public class GameManager {
             players.add(player);
         }
 
-        Dealer mainDealer = new Dealer(dealerNames[random.nextInt(dealerNames.length)]);
+        dealer = new Dealer(dealerNames[random.nextInt(dealerNames.length)]);
 
         System.out.println("==== 카드 게임 시뮬레이션 시작 됩니다 ====");
         System.out.println("숙련된 딜러 - " + dealer.getName() + "가 게임을 진행합니다.");
@@ -70,8 +72,9 @@ public class GameManager {
         System.out.println("전체게임수 : " + numOfGmaes);
 
         for (int i = 0; i < numOfGmaes; i++) {
-            Game game = new Game();
-            game.start(players, mainDealer);
+            Game game = new Game(players, dealer);
+            GameResult gameResult = game.start();
+            gameResults.add(gameResult);
         }
 
 
@@ -95,5 +98,29 @@ public class GameManager {
         }
     }
 
-    // 플레이어 세팅
+    public void printFinalWinner() {
+        Map<Player, Long> sessionWinCounts = gameResults.stream()
+                .collect(Collectors.groupingBy(GameResult::getWinner, Collectors.counting()));
+
+
+        if (sessionWinCounts.isEmpty()) {
+            System.out.println("승자가 없습니다.");
+            return;
+        }
+        // 1. 최고 승수 찾기
+        long maxWins = sessionWinCounts.values().stream()
+                .max(Long::compare)
+                .orElse(0L);
+        // 2. 최고 승수를 가진 플레이어들 모두 찾기
+        List<Player> winners = sessionWinCounts.entrySet().stream()
+                .filter(entry -> entry.getValue() == maxWins)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        // 3. 출력
+        System.out.println("🏆 이번 세션 최종 승자(공동 포함): ");
+        for (Player winner : winners) {
+            System.out.println("- " + winner.getNickName() + " | 승리 수: " + sessionWinCounts.get(winner));
+        }
+    }
 }
