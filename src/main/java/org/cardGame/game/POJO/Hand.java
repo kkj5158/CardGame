@@ -1,4 +1,7 @@
-package org.cardGame.game;
+package org.cardGame.game.POJO;
+
+import org.cardGame.game.POJO.Card;
+import org.cardGame.game.POJO.CardRank;
 
 import java.util.List;
 

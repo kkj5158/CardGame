@@ -1,5 +1,9 @@
 package org.cardGame.game;
 
+import org.cardGame.game.POJO.Card;
+import org.cardGame.game.POJO.CardNumber;
+import org.cardGame.game.POJO.CardSuit;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

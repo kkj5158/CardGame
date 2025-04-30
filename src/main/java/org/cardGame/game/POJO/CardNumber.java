@@ -1,4 +1,4 @@
-package org.cardGame.game;
+package org.cardGame.game.POJO;
 
 public enum CardNumber {
     ACE(1),

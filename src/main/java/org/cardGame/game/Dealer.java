@@ -1,5 +1,10 @@
 package org.cardGame.game;
 
+import org.cardGame.game.POJO.Card;
+import org.cardGame.game.POJO.CardRank;
+import org.cardGame.game.POJO.CardSuit;
+import org.cardGame.game.POJO.Hand;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

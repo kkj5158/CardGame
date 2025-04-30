@@ -1,5 +1,7 @@
 package org.cardGame.game;
 
+import org.cardGame.game.POJO.Hand;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

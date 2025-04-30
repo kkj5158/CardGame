@@ -1,4 +1,4 @@
-package org.cardGame.game;
+package org.cardGame.game.POJO;
 
 public class Card {
     private final CardNumber cardNum;
