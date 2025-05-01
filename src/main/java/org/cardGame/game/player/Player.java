@@ -1,16 +1,23 @@
-package org.cardGame.game;
+package org.cardGame.game.player;
+
+import lombok.Getter;
+import org.cardGame.game.card.Card;
 
 import java.util.List;
 
+
+@Getter
 public class Player {
+
+    private static final double REWARD = 100.0; // 승리 시 상금 100원
     private final String nickName;
     private double money;
     private double winRate;
     private int countOfWin;
     private int countOfLoss;
     private int countOfGames;
+    private List<Card> hands;
 
-    private static final double REWARD = 100.0; // 승리 시 상금 100원
 
     public Player(String nickName, double money) {
         this.nickName = nickName;
@@ -30,6 +37,15 @@ public class Player {
         updateWinRate();
     }
 
+
+    public void clearHands() {
+        hands.clear();
+    }
+
+    public void recieveHand(List<Card> cardList) {
+        this.hands = cardList;
+    }
+
     private void updateWinRate() {
         if (countOfGames == 0) {
             winRate = 0.0;
@@ -38,28 +54,5 @@ public class Player {
         }
     }
 
-    public String getNickName() {
-        return nickName;
-    }
-
-    public double getMoney() {
-        return money;
-    }
-
-    public double getWinRate() {
-        return winRate;
-    }
-
-    public int getCountOfWin() {
-        return countOfWin;
-    }
-
-    public int getCountOfLoss() {
-        return countOfLoss;
-    }
-
-    public int getCountOfGames() {
-        return countOfGames;
-    }
 
 }

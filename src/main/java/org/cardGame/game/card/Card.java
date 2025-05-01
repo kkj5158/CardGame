@@ -1,5 +1,8 @@
-package org.cardGame.game.POJO;
+package org.cardGame.game.card;
 
+import lombok.Getter;
+
+@Getter
 public class Card {
     private final CardNumber cardNum;
     private final CardSuit cardSuit;
@@ -7,14 +10,6 @@ public class Card {
     public Card(CardNumber cardNum, CardSuit cardSuit) {
         this.cardNum = cardNum;
         this.cardSuit = cardSuit;
-    }
-
-    public CardNumber getCardNum() {
-        return cardNum;
-    }
-
-    public CardSuit getCardSuit() {
-        return cardSuit;
     }
 
     public int getCardNumberValue() {

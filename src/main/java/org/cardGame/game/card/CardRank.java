@@ -1,4 +1,4 @@
-package org.cardGame.game.POJO;
+package org.cardGame.game.card;
 
 public enum CardRank {
     HIGH_CARD(1),
@@ -10,7 +10,7 @@ public enum CardRank {
     FULL_HOUSE(7),
     FOUR_OF_A_KIND(8),
     STRAIGHT_FLUSH(9),
-    ROYAL_FLUSH(10);
+    ROYAL_STRAIGHT_FLUSH(10);
 
     private final int score;
 

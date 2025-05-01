@@ -1,16 +1,12 @@
-package org.cardGame.game;
-
-import org.cardGame.game.POJO.Card;
-import org.cardGame.game.POJO.CardNumber;
-import org.cardGame.game.POJO.CardSuit;
+package org.cardGame.game.card;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Deck {
-    private static final int deckCount = 1;
     private final String deckNo;
+    private static final int deckCount = 1;
     private final List<Card> cardList;
 
     public Deck() {

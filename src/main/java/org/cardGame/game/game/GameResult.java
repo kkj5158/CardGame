@@ -1,4 +1,6 @@
-package org.cardGame.game;
+package org.cardGame.game.game;
+
+import org.cardGame.game.player.Player;
 
 public class GameResult {
     private final int gameNumber;
