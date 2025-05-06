@@ -1,5 +1,8 @@
 package org.cardGame.game.card;
 
+import lombok.Getter;
+
+@Getter
 public enum CardRank {
     HIGH_CARD(1),
     ONE_PAIR(2),
@@ -18,7 +21,4 @@ public enum CardRank {
         this.score = score;
     }
 
-    public int getScore() {
-        return score;
-    }
 }

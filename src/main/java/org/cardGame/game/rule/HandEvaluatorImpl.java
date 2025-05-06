@@ -2,21 +2,20 @@ package org.cardGame.game.rule;
 
 import org.cardGame.game.card.Card;
 import org.cardGame.game.card.CardRank;
-import org.cardGame.game.card.CardSuit;
-import org.cardGame.game.player.Player;
+import org.cardGame.game.player.PlayerImpl;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 public class HandEvaluatorImpl implements HandEvaluator {
     @Override
-    public Map<Integer, Player> evaluateRanks(List<Player> players) {
+    public Map<Integer, PlayerImpl> evaluateRanks(List<PlayerImpl> playerImpls) {
 
         List<PlayerWithRank> evaluated = new ArrayList<>();
 
-        for (Player player : players) {
-            List<Card> hand = player.getHands();
+        for (PlayerImpl playerImpl : playerImpls) {
+            List<Card> hand = playerImpl.getHands();
             CardRank rank = evaluateHand(hand);
-            evaluated.add(new PlayerWithRank(player, hand, rank));
+            evaluated.add(new PlayerWithRank(playerImpl, hand, rank));
         }
 
         // 정렬: 높은 족보 우선 → 족보 같으면 숫자 높은 순으로
@@ -42,9 +41,9 @@ public class HandEvaluatorImpl implements HandEvaluator {
             }
         }
 
-        Map<Integer, Player> rankMap = new LinkedHashMap<>();
+        Map<Integer, PlayerImpl> rankMap = new LinkedHashMap<>();
         for (int i = 0; i < evaluated.size(); i++) {
-            rankMap.put(i + 1, evaluated.get(i).player);
+            rankMap.put(i + 1, evaluated.get(i).playerImpl);
         }
 
         return rankMap;
@@ -146,12 +145,12 @@ public class HandEvaluatorImpl implements HandEvaluator {
     }
 
     private static class PlayerWithRank {
-        Player player;
+        PlayerImpl playerImpl;
         List<Card> hand;
         CardRank rank;
 
-        public PlayerWithRank(Player player, List<Card> hand, CardRank rank) {
-            this.player = player;
+        public PlayerWithRank(PlayerImpl playerImpl, List<Card> hand, CardRank rank) {
+            this.playerImpl = playerImpl;
             this.hand = hand;
             this.rank = rank;
         }

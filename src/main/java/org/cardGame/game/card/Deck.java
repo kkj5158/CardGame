@@ -1,9 +1,12 @@
 package org.cardGame.game.card;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class Deck {
     private final String deckNo;
     private static final int deckCount = 1;
@@ -26,16 +29,8 @@ public class Deck {
         return cards;
     }
 
-    public String getDeckNo() {
-        return deckNo;
-    }
-
     public List<Card> getCardList() {
         return cardList;
-    }
-
-    public void suffle() {
-        Collections.shuffle(cardList);
     }
 
     public Card draw() {

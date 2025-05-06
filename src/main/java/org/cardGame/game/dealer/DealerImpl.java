@@ -3,7 +3,7 @@ package org.cardGame.game.dealer;
 import lombok.Getter;
 import org.cardGame.game.card.Card;
 import org.cardGame.game.card.Deck;
-import org.cardGame.game.player.Player;
+import org.cardGame.game.player.PlayerImpl;
 import org.cardGame.game.rule.HandEvaluator;
 import org.cardGame.game.rule.HandEvaluatorImpl;
 
@@ -48,8 +48,8 @@ public class DealerImpl implements Dealer {
     }
 
     @Override
-    public Map<Integer, Player> evaluatePlayer(List<Player> players) {
-        return handEvaluator.evaluateRanks(players);
+    public Map<Integer, PlayerImpl> evaluatePlayer(List<PlayerImpl> playerImpls) {
+        return handEvaluator.evaluateRanks(playerImpls);
     }
 
 

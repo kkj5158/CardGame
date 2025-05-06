@@ -3,7 +3,7 @@ package org.cardGame.game.game;
 import org.cardGame.game.dealer.Dealer;
 import org.cardGame.game.dealer.DealerImpl;
 import org.cardGame.game.helper.NickNameHelper;
-import org.cardGame.game.player.Player;
+import org.cardGame.game.player.PlayerImpl;
 
 import java.util.*;
 
@@ -12,7 +12,7 @@ public class GameManager {
     private static final int MIN_PLAYERS = 2;
     private static final double DEFAULT_MONEY = 10000;
     private final List<GameResult> gameResults = new ArrayList<>();
-    private final List<Player> players = new ArrayList<>();
+    private final List<PlayerImpl> playerImpls = new ArrayList<>();
     private final NickNameHelper nickNameHelper;
     private int numOfPlayers;
     private int numOfGmaes;
@@ -41,8 +41,8 @@ public class GameManager {
         // 플레이어 셋팅
 
         for (int i = 0; i < numOfPlayers; i++) {
-            Player player = new Player(nickNameHelper.generateUniqueNickname(), DEFAULT_MONEY);
-            players.add(player);
+            PlayerImpl playerImpl = new PlayerImpl(nickNameHelper.generateUniqueNickname(), DEFAULT_MONEY);
+            playerImpls.add(playerImpl);
         }
 
         System.out.println("==== 카드 게임 시뮬레이션 시작 됩니다 ====");
@@ -51,7 +51,7 @@ public class GameManager {
 
         for (int i = 0; i < numOfGmaes; i++) {
             Dealer dealer = new DealerImpl(nickNameHelper.generateDealerName());
-            Game game = new Game(players, dealer);
+            Game game = new Game(playerImpls, dealer);
             GameResult gameResult = game.start();
             gameResults.add(gameResult);
         }
@@ -61,11 +61,11 @@ public class GameManager {
 
 
     public void printFinalWinner() {
-        Map<Player, Integer> sessionWinCounts = new HashMap<>();
+        Map<PlayerImpl, Integer> sessionWinCounts = new HashMap<>();
 
         // 1. 승자 집계
         for (GameResult result : gameResults) {
-            Player winner = result.getWinner();
+            PlayerImpl winner = result.getWinner();
             sessionWinCounts.put(winner, sessionWinCounts.getOrDefault(winner, 0) + 1);
         }
 
@@ -84,8 +84,8 @@ public class GameManager {
         }
 
         // 4. 최고 승수 가진 플레이어 수집
-        List<Player> winners = new ArrayList<>();
-        for (Map.Entry<Player, Integer> entry : sessionWinCounts.entrySet()) {
+        List<PlayerImpl> winners = new ArrayList<>();
+        for (Map.Entry<PlayerImpl, Integer> entry : sessionWinCounts.entrySet()) {
             if (entry.getValue() == maxWins) {
                 winners.add(entry.getKey());
             }
@@ -93,7 +93,7 @@ public class GameManager {
 
         // 5. 출력
         System.out.println("🏆 이번 세션 최종 승자(공동 포함): ");
-        for (Player winner : winners) {
+        for (PlayerImpl winner : winners) {
             System.out.println("- " + winner.getNickName() + " | 승리 수: " + sessionWinCounts.get(winner));
         }
     }

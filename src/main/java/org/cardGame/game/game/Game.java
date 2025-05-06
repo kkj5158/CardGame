@@ -3,7 +3,7 @@ package org.cardGame.game.game;
 import org.cardGame.game.card.Card;
 import org.cardGame.game.card.Deck;
 import org.cardGame.game.dealer.Dealer;
-import org.cardGame.game.player.Player;
+import org.cardGame.game.player.PlayerImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -11,13 +11,13 @@ import java.util.Map;
 public class Game {
     private static int gameCount = 0;
     private final String gameNo;
-    private final List<Player> players;
+    private final List<PlayerImpl> playerImpls;
     private final Dealer dealer;
     private final Deck deck;
 
-    public Game(List<Player> players, Dealer dealer) {
+    public Game(List<PlayerImpl> playerImpls, Dealer dealer) {
         this.gameNo = "Game" + gameCount;
-        this.players = players;
+        this.playerImpls = playerImpls;
         this.dealer = dealer;
         this.deck = new Deck();
         gameCount++;
@@ -30,17 +30,17 @@ public class Game {
         this.dealer.receiveDeck(deck);
 
         // 2. 딜러가 덱 셔플하고 플레이어에게 카드 나눠주기 ( 4 명의 플레이어는 연달아서 카드를 분배 받는다.)
-        for (Player p : players) {
+        for (PlayerImpl p : playerImpls) {
             dealer.shuffle(deck); // 딜러가 덱을 셔플한다.
             List<Card> cards = dealer.dealCardToPlayer(); // 딜러가 5장 카드 뽑아내기
-            p.recieveHand(cards); // 플레이어는 해당 카드를 받는다.
+            p.receiveHand(cards); // 플레이어는 해당 카드를 받는다.
         }
 
         // 3. 딜러가 플레이어들의 핸드를 평가하고 순위를 건넨다.
-        Map<Integer, Player> ranks = dealer.evaluatePlayer(players);
+        Map<Integer, PlayerImpl> ranks = dealer.evaluatePlayer(playerImpls);
 
         // 4. 승자 선출하기
-        Player winner = ranks.get(1);
+        PlayerImpl winner = ranks.get(1);
 
         // 5. 승자, 패자 기록 업데이트
         updatePlayerRecords(winner);
@@ -55,21 +55,21 @@ public class Game {
         return gameResult;
     }
 
-    private void updatePlayerRecords(Player winner) {
-        for (Player player : players) {
-            if (player.equals(winner)) {
-                player.win();
+    private void updatePlayerRecords(PlayerImpl winner) {
+        for (PlayerImpl playerImpl : playerImpls) {
+            if (playerImpl.equals(winner)) {
+                playerImpl.win();
             } else {
-                player.lose();
+                playerImpl.lose();
             }
         }
     }
 
-    private void printGameResult(Player winner) {
+    private void printGameResult(PlayerImpl winner) {
         System.out.println(gameNo + "승자🏆: " + winner.getNickName());
         System.out.println("--- 플레이어 상태 ---");
-        for (Player player : players) {
-            System.out.println(player.getNickName() + " | 승: " + player.getCountOfWin() + " 패: " + player.getCountOfLoss());
+        for (PlayerImpl playerImpl : playerImpls) {
+            System.out.println(playerImpl.getNickName() + " | 승: " + playerImpl.getCountOfWin() + " 패: " + playerImpl.getCountOfLoss());
         }
     }
 
